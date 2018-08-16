@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using api.Options;
 
 namespace api.Controllers
 {
@@ -10,6 +12,13 @@ namespace api.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
+        private readonly SystemInfo _systemInfo;
+
+        public HomeController(IOptions<SystemInfo> systemInfo)
+        {
+            _systemInfo = systemInfo.Value;
+        }
+
         [HttpGet]
         public ActionResult<object> Get()
         {
@@ -23,7 +32,7 @@ namespace api.Controllers
                 }
             };
 
-            return info;
+            return _systemInfo;
         }
     }
 }
